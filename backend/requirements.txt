@@ -13,3 +13,7 @@ cryptography      # MySQL 8.0+ 보안 인증용
 
 # Vector DB
 chromadb
+
+# --- AI & Environment Variables ---
+google-generativeai
+python-dotenv
