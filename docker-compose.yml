@@ -1,4 +1,14 @@
 services:
+  db:
+    image: mysql:8.0
+    container_name: creative-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: creative_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql # 데이터 유지를 위한 볼륨 설정
   # 1. 백엔드 서비스
   backend:
     build:

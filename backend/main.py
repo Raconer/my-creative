@@ -1,33 +1,39 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import os
-from dotenv import load_dotenv
 
-# .env 파일 읽어오기
-load_dotenv()
+from core.config import settings
+from core.logger import logger
+from core.middleware import setup_middleware
+from database import init_db
 
-app = FastAPI(title=os.getenv("APP_NAME", "CreativeNode"))
+from api.v1.api import api_router  # 1. api_router를 import 하세요
 
-# 리액트(Frontend)와 통신을 위한 보안 해제 설정
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # 모든 도메인 허용 (로컬 개발용)
-    allow_methods=["*"],  # 모든 HTTP 메서드 허용 (GET, POST 등)
-    allow_headers=["*"],
-)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # [Startup] DB 초기화 및 테이블 동기화
+    logger.info(f"🚀 {settings.app.APP_NAME} 서버 기동 중...")
+    try:
+        init_db()
+    except Exception as e:
+        logger.error(f"❌ 초기화 중 치명적 오류 발생: {e}")
+    
+    yield  # --- 서버 가동 ---
+    
+    # [Shutdown]
+    logger.info("🛑 서버 종료.")
 
-@app.get("/")
-def read_root():
-    """
-    서버가 살아있는지 확인하는 기본 엔드포인트
-    """
-    return {
-        "status": "online",
-        "message": "노드 기반 창작 시스템 서버가 정상 작동 중입니다!",
-        "version": "0.1.0"
-    }
+def get_application() -> FastAPI:
+    _app = FastAPI(
+        title=settings.app.APP_NAME,
+        lifespan=lifespan
+    )
 
-# 실행 명령어 안내용 (터미널에서 직접 실행 시 활용)
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    # 미들웨어 설정 적용
+    setup_middleware(_app)
+
+    # TODO: 라우터 등록 (이곳에 나중에 api_router를 연결할 예정입니다)
+    _app.include_router(api_router)
+
+    return _app
+
+app = get_application()

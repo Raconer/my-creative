@@ -1,3 +1,15 @@
+# Web Framework
 fastapi
 uvicorn
+
+# Configuration & Environment
 python-dotenv
+pydantic-settings
+
+# Database (ORM & Driver)
+sqlalchemy>=2.0.0
+pymysql           # MySQL 드라이버 (Spring의 MySQL Connector 역할)
+cryptography      # MySQL 8.0+ 보안 인증용
+
+# Vector DB
+chromadb
