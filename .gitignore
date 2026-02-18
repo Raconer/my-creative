@@ -1,0 +1,88 @@
+# =================================================================
+# [ macOS ] - 시스템 자동 생성 파일
+# =================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# =================================================================
+# [ VS Code ] - 에디터 개인 설정
+# =================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# =================================================================
+# [ 환경 변수 및 보안 (SECRET) ] - 절대 업로드 금지
+# =================================================================
+# 1. 경로 기반 차단 (가장 확실함)
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
+
+# 2. 모든 하위 폴더 내 .env 관련 파일 완전 차단
+**/.env
+**/.env.*
+
+# =================================================================
+# [ Backend: Python / FastAPI ] - 가상환경 및 DB
+# =================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 가상환경 내부 파일들 (backend/.venv 등 포함)
+.venv/
+venv/
+env/
+ENV/
+lib/
+lib64/
+include/
+bin/
+Scripts/
+pyvenv.cfg
+
+# 데이터베이스 관련
+*.db
+*.db-journal
+*.sqlite3
+
+# 창작물 저장소 (구조 유지는 하되 파일은 차단)
+backend/storage/*.md
+!backend/storage/.gitkeep
+
+# 파이썬 도구 캐시
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# =================================================================
+# [ Frontend: Node / React ] - 라이브러리 및 빌드
+# =================================================================
+node_modules/
+frontend/node_modules/
+build/
+dist/
+.npm
+.eslintcache
+.stylelintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp*
+.pnp.js
+
+# =================================================================
+# [ Etc ] - 로그 및 임시 파일
+# =================================================================
+*.log
+temp/
+tmp/
