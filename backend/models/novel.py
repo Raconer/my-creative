@@ -35,11 +35,5 @@ class Novel(Base):
     # 📊 생성 과정 로그 (1:N)
     generation_logs = relationship("GenerationLog", back_populates="novel", cascade="all, delete-orphan")
 
-    # 💡 지식 베이스 에피소드들 (1:N)
-    episodes = relationship("Episode", back_populates="novel", cascade="all, delete-orphan")
-
-    # 🎨 캔버스 위 설정 노드들 (1:N)
-    nodes = relationship("Node", back_populates="novel", cascade="all, delete-orphan")
-
     def __repr__(self):
         return f"<Novel(id={self.id}, title='{self.title}', genre='{self.genre}')>"
